@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Buscar from './UI/Buscar.jsx';
 import Carta from './UI/Carta.jsx';
 import Header from './layout/header.jsx'; 
+import Footer from './layout/Footer.jsx';
 
 export default function App() {
   const [products, setProducts] = useState([]);
@@ -24,11 +25,10 @@ export default function App() {
   };
 
   return (
-    <div className="bg-gray-950">
-
+    <div className="bg-gray-900 text-gray-200 min-h-screen flex flex-col">
       <Header />
 
-      <main className="bg-yellow-200 w-1.500 mx-auto p-4 flex-grow">
+      <main className="w-full max-w-6xl mx-auto p-6 flex-grow">
         <Buscar onSearch={handleSearch} />
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
           {filtered.map(product => (
@@ -37,7 +37,7 @@ export default function App() {
         </div>
       </main>
 
-     
+      <Footer />
     </div>
   );
 }
