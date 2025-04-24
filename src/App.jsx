@@ -1,35 +1,55 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react';
+import Buscar from './UI/Buscar.jsx';
+import Cartas from './UI/Carta.jsx';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [products, setProducts] = useState([]);
+  const [filtered, setFiltered] = useState([]);
+
+  useEffect(() => {
+    fetch('https://fakestoreapi.com/products')
+      .then(res => res.json())
+      .then(data => {
+        setProducts(data);
+        setFiltered(data);
+      });
+  }, []);
+
+  const handleSearch = (query) => {
+    const result = products.filter(product =>
+      product.title.toLowerCase().includes(query.toLowerCase())
+    );
+    setFiltered(result);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="min-h-screen flex flex-col bg-gray-100">
+      <Header />
+      <main className="flex-1 p-4 max-w-6xl mx-auto">
+        <Buscar onSearch={handleSearch} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
+          {filtered.map(product => (
+            <Cartas key={product.id} product={product} />
+          ))}
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
 }
 
-export default App
+function Header() {
+  return (
+    <header className="bg-blue-600 text-white py-4 text-center shadow">
+      <h1 className="text-2xl font-bold"> Tienda el Balatro </h1>
+    </header>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="bg-blue-600 text-white py-2 text-center mt-8">
+      <p>Tienda JÆH|╣R 2024</p>
+    </footer>
+  );
+}
