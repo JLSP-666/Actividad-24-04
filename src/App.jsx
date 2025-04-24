@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Buscar from './UI/Buscar.jsx';
-import Cartas from './UI/Carta.jsx';
+import Carta from './UI/Carta.jsx';
+import Header from './layout/header.jsx'; 
 
 export default function App() {
   const [products, setProducts] = useState([]);
@@ -23,33 +24,20 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100">
+    <div className="bg-gray-950">
+
       <Header />
-      <main className="flex-1 p-4 max-w-6xl mx-auto">
+
+      <main className="bg-yellow-200 w-1.500 mx-auto p-4 flex-grow">
         <Buscar onSearch={handleSearch} />
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
           {filtered.map(product => (
-            <Cartas key={product.id} product={product} />
+            <Carta key={product.id} product={product} />
           ))}
         </div>
       </main>
-      <Footer />
+
+     
     </div>
-  );
-}
-
-function Header() {
-  return (
-    <header className="bg-blue-600 text-white py-4 text-center shadow">
-      <h1 className="text-2xl font-bold"> Tienda el Balatro </h1>
-    </header>
-  );
-}
-
-function Footer() {
-  return (
-    <footer className="bg-blue-600 text-white py-2 text-center mt-8">
-      <p>Tienda JÆH|╣R 2024</p>
-    </footer>
   );
 }
